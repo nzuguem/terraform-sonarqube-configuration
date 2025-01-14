@@ -1,0 +1,40 @@
+users:
+  - name: Kevin NZUGUEM
+    login: k.nzuguem
+    email: kevin.nzuguem@nzuguem.me
+    password: secret-sauce37!
+    is_local: true
+  - name: Michelle MOCHE
+    login: m.moche
+    email: michelle.moche@nzuguem.me
+    password: secret-sauce37!
+    is_local: true
+  - name: Idriss TAYO
+    login: i.tayo
+    email: idriss.tayo@nzuguem.me
+    password: secret-sauce37!
+    is_local: true
+  - name: Team 1 TECH
+    login: t1.tech
+    password: secret-sauce37!
+    email: t1.tech@nzuguem.me
+    is_local: true
+  - name: Team 2 TECH
+    login: t2.tech
+    password: secret-sauce37!
+    email: t2.tech@nzuguem.me
+    is_local: true
+
+groups:
+  - name: team-1
+    description: Team 1
+    members:
+      - k.nzuguem
+      - m.moche
+      - t1.tech
+  - name: team-2
+    description: Team 2
+    members:
+      - k.nzuguem
+      - i.tayo
+      - t2.tech

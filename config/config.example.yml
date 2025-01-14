@@ -1,0 +1,20 @@
+users:
+  - login: john
+    email: john.doe@nzuguem.me
+    password: secret-sauce37!
+    is_local: true
+  - name: John Doe
+    login: doe
+    email: john.doe@nzuguem.me
+    password: null
+    is_local: false
+
+groups:
+  - name: team-x
+    description: Team X
+    members:
+      - john
+  - name: team-y
+    description: Team Y
+    members:
+      - doe
