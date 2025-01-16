@@ -1,0 +1,4 @@
+{
+    "sonarQubeUri": "http://localhost:9000",
+    "projectKey": "me.nzuguem.team-1:sonar-configuration"
+}

@@ -5,6 +5,8 @@ provider "registry.terraform.io/jdamata/sonarqube" {
   version     = "0.16.14"
   constraints = "~> 0.16.14"
   hashes = [
+    "h1:8G6MQK7XrRNq235YpRsypTFmIW7FueJKq45VnNr5tCg=",
+    "h1:ADwkMm5k2xOecX/V+osu3+u4TMUEmpC7IPcrTj3Rh/Q=",
     "h1:tHyDE3L1/9DNrpa14SGZX65zDBgSWVtczkq4B1n47zk=",
     "zh:0341e8ee8e0595e31d94e6329ca14001c1264418139227dafefef067dd8798b2",
     "zh:047dfd8407544824f0190d2bea2f5e8e1bb571caddd80225fba5ca0bf9bbea27",

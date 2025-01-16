@@ -1,0 +1,32 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/guiyomh/features/vim": {},
+        "ghcr.io/devcontainers-extra/features/go-task:1": {},
+        "ghcr.io/devcontainers-contrib/features/fzf:1": {},
+        "ghcr.io/devcontainers/features/terraform:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mhutchie.git-graph",
+                "redhat.vscode-yaml",
+                "task.vscode-task",
+                "SonarSource.sonarlint-vscode"
+            ],
+            "settings": {
+                "sonarlint.connectedMode.project": {
+                    "connectionId": "http-localhost-9000",
+                    "projectKey": "me.nzuguem.team-1:sonar-configuration"
+                }
+            }
+        }
+    },
+    "appPort": [
+        9000
+    ],
+    "postStartCommand": "bash .devcontainer/scripts/postStartCommand.sh"
+}
