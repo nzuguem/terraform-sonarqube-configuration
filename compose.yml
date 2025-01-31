@@ -21,6 +21,28 @@ services:
       start_period: 55s
     ports:
       - "9000:9000"
+  
+  admin-tools:
+    image: curlimages/curl
+    container_name: admin-tools
+    restart: no
+    user: root
+    environment:
+      NEW_ADMIN_PASSWORD: NewAdminPassword237.
+      SONAR_TOKEN: ""
+    volumes:
+      - ./terraform.tfvars:/terraform.tfvars
+    depends_on:
+      sonarqube:
+        condition: service_healthy
+    command: 
+    - sh 
+    - -c
+    - |
+      apk add jq &&
+      curl -u admin:admin -X POST "http://sonarqube:9000/api/users/change_password?login=admin&previousPassword=admin&password=$$NEW_ADMIN_PASSWORD" &&
+      SONAR_TOKEN=$(curl -u admin:$$NEW_ADMIN_PASSWORD -X POST "http://sonarqube:9000/api/user_tokens/generate" -d "name=terraform" | jq -r '.token') &&
+      echo "sonar_token = \"$$SONAR_TOKEN\"" >| /terraform.tfvars
 
   db:
     image: postgres:15

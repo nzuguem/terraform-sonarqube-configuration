@@ -13,5 +13,7 @@ sudo sh -c 'task --completion bash > /etc/bash_completion.d/task'
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_set_vm_max_map_count_to_at_least_262144
 sudo sysctl -w vm.max_map_count=262144
 
+touch terraform.tfvars
+
 # Start SonarQube Server
 docker compose up --wait

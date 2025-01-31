@@ -6,6 +6,20 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/nzuguem/terraform-sonarqube-configuration)
 
+## Play Terraform Configuration
+
+Login on SonarQube :
+- Login: `admin`
+- Password: `NewAdminPassword237.`
+
+```bash
+terraform init
+
+terraform apply
+```
+
+Seeing changes in SonarQube 😎👌🔥 
+
 ## Execute Analysis
 
 ```bash
