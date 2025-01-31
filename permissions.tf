@@ -4,10 +4,19 @@ resource "sonarqube_permissions" "sonar_users" {
   permissions   = ["codeviewer"]
 }
 
-#resource "sonarqube_permissions" "sonar_users_global" {
-#  group_name    = data.sonarqube_group.sonar_users.name
-#  permissions   = [null]
-#}
+resource "null_resource" "remove_default_permissions_sonars_users" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      curl -X POST -u "${var.sonar_token}:" \
+        ${var.sonar_host}/api/permissions/remove_group \
+        -d "permission=scan&groupName=${data.sonarqube_group.sonar_users.name}"
+      
+      curl -X POST -u "${var.sonar_token}:" \
+        ${var.sonar_host}/api/permissions/remove_group \
+        -d "permission=provisioning&groupName=${data.sonarqube_group.sonar_users.name}"
+    EOT
+  }
+}
 
 ##################### Team 1 #####################
 resource "sonarqube_permission_template" "team_1_template" {
