@@ -1,20 +1,34 @@
 users:
   - login: john
     email: john.doe@nzuguem.me
-    password: secret-sauce37!
-    is_local: true
   - name: John Doe
     login: doe
     email: john.doe@nzuguem.me
-    password: null
     is_local: false
+    is_admin: true
 
 groups:
   - name: team-x
     description: Team X
     members:
       - john
+    template:
+      name: Team X Projects
+      description: Team X Projects
+      project_key_pattern: me.nzuguem.team-x.*
+    roles:
+      admins: 
+      - john
+      tech: john
   - name: team-y
     description: Team Y
     members:
       - doe
+    template:
+      name: Team Y Projects
+      description: Team Y Projects
+      project_key_pattern: me.nzuguem.team-y.*
+    roles:
+      admins: 
+      - doe
+      tech: doe

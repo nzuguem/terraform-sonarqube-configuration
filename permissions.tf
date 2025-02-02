@@ -18,64 +18,42 @@ resource "null_resource" "remove_default_permissions_sonars_users" {
   }
 }
 
-##################### Team 1 #####################
-resource "sonarqube_permission_template" "team_1_template" {
-  name                = "Team 1 Projects"
-  description         = "Team 1 Projects"
-  project_key_pattern = "me.nzuguem.team-1.*"
+resource "sonarqube_permission_template" "team_templates" {
+  for_each            = { for group in local.groups : group.template.name => group }
+  name                = each.value.template.name
+  description         = each.value.template.description
+  project_key_pattern = each.value.template.project_key_pattern
 }
 
-resource "sonarqube_permissions" "team_1_tech" {
-  login_name    = sonarqube_user.users["t1.tech"].login_name
-  template_name = sonarqube_permission_template.team_1_template.name
+resource "sonarqube_permissions" "team_tech_user_permissions" {
+  for_each      = { for group in local.groups : group.name => group }
+  login_name    = each.value.roles.tech
+  template_name = each.value.template.name
   permissions   = ["scan"]
+  depends_on    = [sonarqube_user.users, sonarqube_permission_template.team_templates]
 }
 
-resource "sonarqube_permissions" "team_1_tech_global" {
-  login_name  = sonarqube_user.users["t1.tech"].login_name
+resource "sonarqube_permissions" "team_tech_user_global_permissions" {
+  for_each    = { for group in local.groups : group.name => group }
+  login_name  = each.value.roles.tech
   permissions = ["provisioning"]
+  depends_on  = [sonarqube_user.users]
 }
 
-resource "sonarqube_permissions" "admin_team_1_key" {
-  login_name    = sonarqube_user.users["k.nzuguem"].login_name
-  template_name = sonarqube_permission_template.team_1_template.name
+resource "sonarqube_permissions" "team_admin_user_permissions" {
+  for_each      = { for group in local.groups_admins : "${group.name}/${group.admin}" => group }
+  login_name    = each.value.admin
+  template_name = each.value.template
   permissions   = ["admin"]
+  depends_on    = [sonarqube_user.users, sonarqube_permission_template.team_templates]
 }
 
-resource "sonarqube_permissions" "group_team_1_key" {
-  group_name    = sonarqube_group.groups["team-1"].name
-  template_name = sonarqube_permission_template.team_1_template.name
+resource "sonarqube_permissions" "team_group_permission" {
+  for_each      = { for group in local.groups : group.name => group }
+  group_name    = each.value.name
+  template_name = each.value.template.name
   permissions   = ["codeviewer", "user"]
-}
-
-##################### Team 2 #####################
-resource "sonarqube_permission_template" "team_2_template" {
-  name                = "Team 2 Projects"
-  description         = "Team 2 Projects"
-  project_key_pattern = "me.nzuguem.team-2.*"
-}
-
-resource "sonarqube_permissions" "team_2_tech" {
-  login_name    = sonarqube_user.users["t2.tech"].login_name
-  template_name = sonarqube_permission_template.team_2_template.name
-  permissions   = ["scan"]
-}
-
-resource "sonarqube_permissions" "team_2_tech_global" {
-  login_name  = sonarqube_user.users["t2.tech"].login_name
-  permissions = ["provisioning"]
-}
-
-resource "sonarqube_permissions" "admin_team_2_key" {
-  login_name    = sonarqube_user.users["k.nzuguem"].login_name
-  template_name = sonarqube_permission_template.team_2_template.name
-  permissions   = ["admin"]
-}
-
-resource "sonarqube_permissions" "group_team_2_key" {
-  group_name    = sonarqube_group.groups["team-2"].name
-  template_name = sonarqube_permission_template.team_2_template.name
-  permissions   = ["codeviewer", "user"]
+  depends_on    = [sonarqube_group.groups, sonarqube_permission_template.team_templates]
 }
 
 

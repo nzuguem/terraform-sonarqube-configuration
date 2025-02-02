@@ -7,6 +7,11 @@ terraform {
       source  = "jdamata/sonarqube"
       version = "~> 0.16.14"
     }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6.3"
+    }
   }
 
   backend "local" {}
@@ -15,4 +20,7 @@ terraform {
 provider "sonarqube" {
   host  = var.sonar_host
   token = var.sonar_token
+}
+
+provider "random" {
 }

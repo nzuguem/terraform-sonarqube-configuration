@@ -1,11 +1,7 @@
-resource "sonarqube_user_token" "token_team_1" {
-  login_name = sonarqube_user.users["t1.tech"].login_name
+resource "sonarqube_user_token" "team_tokens" {
+  for_each   = { for group in local.groups : group.name => group }
+  login_name = each.value.roles.tech
   type       = "USER_TOKEN"
-  name       = "Team 1 Analysis Token"
-}
-
-resource "sonarqube_user_token" "token_team_2" {
-  login_name = sonarqube_user.users["t2.tech"].login_name
-  type       = "USER_TOKEN"
-  name       = "Team 2 Analysis Token"
+  name       = "${each.value.name} Analysis Token"
+  depends_on = [sonarqube_user.users]
 }

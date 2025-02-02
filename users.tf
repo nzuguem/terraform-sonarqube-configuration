@@ -1,10 +1,17 @@
+resource "random_password" "password" {
+  for_each         = { for user in local.users : user.login => user }
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
 resource "sonarqube_user" "users" {
   for_each   = { for user in local.users : user.login => user }
   login_name = each.value.login
   name       = each.value.name
-  is_local   = each.value.is_local
+  is_local   = try(each.value.is_local, true)
   email      = each.value.email
-  password   = each.value.password
+  password   = random_password.password[each.key].result
 }
 
 resource "sonarqube_group" "groups" {
@@ -20,6 +27,17 @@ resource "sonarqube_group_member" "members" {
   depends_on = [sonarqube_user.users, sonarqube_group.groups]
 }
 
+resource "sonarqube_group_member" "admins" {
+  for_each   = { for user in local.users_admins : user.login => user }
+  name       = data.sonarqube_group.sonar_admins.name
+  login_name = each.value.login
+  depends_on = [sonarqube_user.users]
+}
+
 data "sonarqube_group" "sonar_users" {
   name = "sonar-users"
+}
+
+data "sonarqube_group" "sonar_admins" {
+  name = "sonar-administrators"
 }

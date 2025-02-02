@@ -1,9 +1,9 @@
-output "token_team_1" {
-  value     = sonarqube_user_token.token_team_1.token
+output "team_tokens" {
+  value     = { for group_name, user_token in sonarqube_user_token.team_tokens : group_name => user_token.token }
   sensitive = true
 }
 
-output "token_team_2" {
-  value     = sonarqube_user_token.token_team_2.token
+output "user_passwords" {
+  value     = { for login, user in sonarqube_user.users : login => user.password }
   sensitive = true
 }
